@@ -1,0 +1,22 @@
+This is ICB protocol plugin for Pidgin.  For more informations, latest version,
+tips'n'tricks, etc. check  official website:
+
+	http://nic.com.pl/~alek/pidgin-icb
+
+This plugin is developed (and tested) on OpenBSD with Pidgin 2.0.0.
+It will only work with this particular version of Pidgin!
+
+What is supported:
+ * chatting and IM
+ * long messages (longer that packet size) are splited into smaller chunks
+ * other things (server error messages, ...)
+ * nick changing
+ * booting
+ * /m command (more to come here)
+ * changing topic
+ * passing moderation privileges
+
+Missing features:
+ * public directory, user info
+
+Copyright 2005-2007 Aleksander Piotrowski <aleksander.piotrowski@nic.com.pl>
