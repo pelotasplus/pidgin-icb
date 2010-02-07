@@ -248,25 +248,27 @@ icb_send(IcbSession *icb, char command, int params, ...)
 	// command	
 	*pos = command;
 
-	// amount of date in buffer
+	// amount of data in buffer
 	size = 2;
 
 	// fields
 	va_start(arg, params);
 	while (params-- > 0) {
 		field = va_arg(arg, const char *);
-		fieldlen = strlen(field);
+		if (field != NULL) {
+			fieldlen = strlen(field);
+			// -1 to leave space for NUL at the end of buffer
+			if (fieldlen + size > ICB_PACKET_SIZE -1) {
+				purple_debug_info("icb", "<- icb_send: too much data to write");
+				va_end(arg);
+				return -1;
+			}
 
-		// -1 to leave space for NUL at the end of buffer
-		if (fieldlen + size > ICB_PACKET_SIZE -1) {
-			purple_debug_info("icb", "<- icb_send: too much data to write");
-			va_end(arg);
-			return -1;
-		}
-
-		// field data
-		strncpy(&packet[size], field, fieldlen);
-		size += fieldlen;
+			// field data
+			strncpy(&packet[size], field, fieldlen);
+			size += fieldlen;
+		} else
+			purple_debug_info("icb", "Skipping NULL param");
 
 		// separator
 		if (params != 0) {
