@@ -337,7 +337,7 @@ icb_login(PurpleAccount *account)
 	g_strfreev(userparts);
 
 	icb->port = purple_account_get_int(account, "port", ICB_DEFAULT_PORT);
-	icb->login_id = purple_account_get_string(account, "login_id", icb->user);
+	icb->login_id = purple_account_get_string(account, "login_id", "");
 
 	purple_connection_update_progress(gc, _("Connecting"), 1, ICB_CONNECT_STEPS);
 
@@ -435,12 +435,18 @@ icb_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 					_("Sending login information"), 2,
 	                        	ICB_CONNECT_STEPS);
 
+				const char *login_id;
+				if (icb->login_id && icb->login_id[0] != '\0')
+					login_id = icb->login_id;
+				else
+					login_id = icb->user;
+
 				if (gc->account->password && *gc->account->password) {
-					ret = icb_send(icb, ICB_CMD_LOGIN, 5, icb->login_id, icb->user,
+					ret = icb_send(icb, ICB_CMD_LOGIN, 5, login_id, icb->user,
 						purple_account_get_string(gc->account, "group", ICB_DEFAULT_GROUP),
 						"login", gc->account->password);
 				} else {
-					ret = icb_send(icb, ICB_CMD_LOGIN, 4, icb->login_id, icb->user,
+					ret = icb_send(icb, ICB_CMD_LOGIN, 4, login_id, icb->user,
 						purple_account_get_string(gc->account, "group", ICB_DEFAULT_GROUP),
 						"login");
 				}
