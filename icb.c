@@ -406,9 +406,6 @@ icb_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 
 	purple_debug_misc("icb", "-> icb_input_cb: fd=%d\n", icb->fd);
 
-	purple_debug_misc("icb", "icb_input_pos - icb_input_buf=%d\n", icb_input_pos - icb_input_buf);
-	purple_debug_misc("icb", "icb_input_fill=%d\n", icb_input_fill);
-
 	if (icb->fd < 0) {
 		purple_debug_info("icb", "icb->fd < 0");
 		return;
