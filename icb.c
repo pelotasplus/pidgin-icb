@@ -140,7 +140,7 @@ icb_parse_buf()
 
 	/* There has to be at least two chars in buffer: size and command */
 	if (icb_input_fill < 2) {
-		purple_debug_info("icb", "Buffer is to short.  Only %d char(s)\n", icb_input_buf);
+		purple_debug_info("icb", "Buffer is to short.\n");
 		return NULL;
 	}
 
