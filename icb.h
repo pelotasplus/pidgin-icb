@@ -60,7 +60,7 @@
 #  define _(x) ((char *)x)
 #endif
 
-#define ICB_VERSION "20070505"
+#define ICB_VERSION "20100207"
 
 #define ICB_PACKET_SIZE     255
 #define ICB_MAX_DATA_SIZE   230 /* XXX Max value is 252 *but* some servers
