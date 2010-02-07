@@ -22,6 +22,12 @@
 
 #include <libpurple/cmds.h>
 
+/*
+ * Keep alives will be sent after KEEPALIVE_TIMEOUT seconds of
+ * inactivity.
+ */
+#define KEEPALIVE_TIMEOUT 150
+
 static char  icb_input_buf[ICB_BUFSIZE+1];
 static char *icb_input_pos = icb_input_buf;
 static int   icb_input_fill = 0;
@@ -212,6 +218,8 @@ icb_login_cb(gpointer data, gint source, const gchar *error_message)
 
 	gc->inpa = purple_input_add(icb->fd, PURPLE_INPUT_READ, icb_input_cb, gc);
 
+	icb->sr_time = time(NULL);
+
 	purple_debug_info("icb", "<- icb_login_cb\n");
 }
 
@@ -288,7 +296,8 @@ icb_send(IcbSession *icb, char command, int params, ...)
 		purple_debug_info("icb", "write(): %d, %s\n", errno, strerror(errno));
 		purple_connection_error(purple_account_get_connection(icb->account),
 			_("Server has disconnected"));
-	}
+	} else
+		icb->sr_time = time(NULL);
 
 	purple_debug_info("icb", "<- icb_send %d byte(s)\n", ret);
 
@@ -421,6 +430,7 @@ icb_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 	purple_debug_info("icb", "Now buffer is filled with %d char(s)\n", icb_input_fill);
 
 	while (icb_input_fill > 0 && (packet = icb_parse_buf()) != NULL) {
+		icb->sr_time = time(NULL);
 		icb_dump_packet(packet);
 		switch (packet->command) {
 			case ICB_CMD_PROTO_VERSION:
@@ -1248,6 +1258,19 @@ icb_chat_info_defaults(PurpleConnection *gc, const char *chat_name)
         return defaults;
 }
 
+static void
+icb_keepalive(PurpleConnection *gc)
+{
+	IcbSession     *icb = gc->proto_data;
+
+	purple_debug_misc("icb", "-> icb_keepalive\n");
+
+	if ((time(NULL) - icb->sr_time) >= KEEPALIVE_TIMEOUT)
+		icb_send(icb, ICB_CMD_PONG, 0);
+
+	purple_debug_misc("icb", "<- icb_keepalive\n");
+}
+
 static PurplePlugin *icb_plugin = NULL;
 
 static PurplePluginProtocolInfo prpl_info =
@@ -1289,7 +1312,7 @@ static PurplePluginProtocolInfo prpl_info =
 	icb_leave_chat,		/* chat_leave */
 	NULL,			/* chat_whisper */
 	icb_send_chat,		/* chat_send */
-	NULL,			/* keepalive */
+	icb_keepalive,		/* keepalive */
 	NULL,			/* register_user */
 	NULL,			/* get_cb_info */
 	NULL,			/* get_cb_away */

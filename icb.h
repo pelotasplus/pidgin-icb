@@ -80,7 +80,8 @@
 #define ICB_CMD_COMMAND       'h'
 #define ICB_CMD_COMMAND_RESP  'i'
 #define ICB_CMD_PROTO_VERSION 'j'
-#define ICB_CMD_MSG           'm'
+#define ICB_CMD_PING          'l'
+#define ICB_CMD_PONG          'm'
 #define ICB_CMD_WHO           'w'
 
 #define ICB_SERVICES_NAME	"server"
@@ -133,6 +134,7 @@ typedef struct {
 	int          chat_id;
 	enum wl_mode wl;		/* What to do with wl response */
 	char         wl_nick[256];	/* What to do with wl response */
+	time_t       sr_time;		/* time of last send/receive */
 #if 0
 	GString     *motd;		/* MOTD.  First bunch of "co"s sent by server right after
 					 * user logs in.
