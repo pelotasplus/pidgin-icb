@@ -88,8 +88,8 @@ icb_dump_packet(IcbPacket *packet)
 	purple_debug_info("icb", "length:  %d\n", packet->length);
 	purple_debug_info("icb", "command: %c\n", packet->command);
 	for (i = 0; i < packet->nof; i++) {
-		purple_debug_info("icb", "field %d: %d \"%s\"\n", i,
-		                strlen(packet->fields[i]), packet->fields[i]);
+		purple_debug_info("icb", "field %d: %ld \"%s\"\n",
+			i, (long) strlen(packet->fields[i]), packet->fields[i]);
 	} 
 
 	purple_debug_info("icb", "<- icb_dump_packet\n");
