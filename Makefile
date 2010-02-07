@@ -6,7 +6,7 @@ CFLAGS+=`pkg-config pidgin --cflags` \
 	-I${LOCALBASE}/include \
 	-fPIC \
 	-Wall
-DATE=	`date +%Y%m%d`
+DATE=	`grep ICB_VERSION icb.h | awk '{print $$3}' | sed -e 's/"//g'`
 
 .c.o:
 	$(CC) -c $< $(CFLAGS)
