@@ -982,10 +982,15 @@ icb_join_chat(PurpleConnection *gc, GHashTable *data)
 	purple_debug_info("icb", "-> icb_join_chat\n");
 
 	group = g_hash_table_lookup(data, "group");
-
 	purple_debug_info("icb", "group %s\n", group);
-
-	icb_send(icb, ICB_CMD_COMMAND, 2, "g", group);
+	/*
+	 * auto-reconnect calls icb_join_chat when group is not in the hash
+	 * table. ignore these calls gracefully instead of segfaulting in
+	 * icb_send.
+         */
+	if (group != NULL) {
+		icb_send(icb, ICB_CMD_COMMAND, 2, "g", group);
+	}
 
 	purple_debug_info("icb", "<- icb_join_chat\n");
 }
