@@ -4,6 +4,7 @@ GTK?=	../win32-dev/gtk_2_0
 GAIM?=	../pidgin-2.6.5
 CFLAGS+=-I$(GAIM)/libpurple \
 	-I$(GAIM)/libpurple/win32 \
+	-I$(GAIM)/ \
 	-I. \
 	-I$(GTK)/include \
 	-I$(GTK)/include/gtk-2.0 \

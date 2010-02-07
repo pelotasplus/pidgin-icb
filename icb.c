@@ -20,6 +20,8 @@
 
 #include "icb.h"
 
+#include <libpurple/cmds.h>
+
 static char  icb_input_buf[ICB_BUFSIZE+1];
 static char *icb_input_pos = icb_input_buf;
 static int   icb_input_fill = 0;
