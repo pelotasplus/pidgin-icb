@@ -828,6 +828,7 @@ moderator_just_left:
 #endif
 			
 				}
+				break;
 			case ICB_CMD_PONG:
 				purple_debug_info("icb", "pong msg\n");
 				break;
