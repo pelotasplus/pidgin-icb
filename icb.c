@@ -238,7 +238,7 @@ icb_send(IcbSession *icb, char command, int params, ...)
 		return -1;
 	}
 
-	bzero(packet, sizeof(packet));
+	memset(packet, '\0', sizeof(packet));
 
 	// size of packet (filled with dummy value for now) 
 	*pos++ = '-';
@@ -310,7 +310,7 @@ icb_login(PurpleAccount *account)
 	icb->account = account;
 	icb->chat_id = icb_get_new_chat_id();
 
-	bzero(icb_input_buf, sizeof(icb_input_buf));
+	memset(icb_input_buf, '\0', sizeof(icb_input_buf));
 	icb_input_pos = icb_input_buf;
 	icb_input_fill = 0;
 
@@ -483,7 +483,7 @@ icb_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 					char              group[ICB_PACKET_SIZE], *name_end, *name_start;
 
 					/* Looking for a group name */
-					bzero(group, sizeof(group));
+					memset(group, '\0', sizeof(group));
 
 					/* +1 to skip space after ICB_STAT_JOIN */
 					name_start = packet->fields[1] + ICB_STAT_JOIN_LEN + 1;
@@ -523,7 +523,7 @@ icb_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 						break;
 					
 					/* Looking for a group name */
-					bzero(user, sizeof(user));
+					memset(user, '\0', sizeof(user));
 
 					len = strlen(packet->fields[1]);
 					name_start = packet->fields[1];
@@ -559,7 +559,7 @@ icb_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 					}
 
 					/* Looking for a group name */
-					bzero(user, sizeof(user));
+					memset(user, '\0', sizeof(user));
 
 					len = strlen(packet->fields[1]);
 					name_start = packet->fields[1];
@@ -701,7 +701,7 @@ icb_input_cb(gpointer data, gint source, PurpleInputCondition cond)
 
 					conv = icb_get_current_group(gc->account, icb->chat_id);
 
-					bzero(old_mod, sizeof(old_mod));
+					memset(old_mod, '\0', sizeof(old_mod));
 					tmp = strchr(packet->fields[1], ' ');
 					if (tmp == NULL) {
 						purple_notify_warning(gc, NULL, _("Error"),
