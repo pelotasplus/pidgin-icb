@@ -26,9 +26,25 @@
 #include <glib.h>
 #include <fcntl.h>
 
-#ifdef __MINGW32__
-#  include "libc_interface.h"
-#endif /* __MINGW32__ */
+#define PURPLE_PLUGINS
+
+/* from libpurple/internal.h */
+#ifndef G_GNUC_NULL_TERMINATED
+#  if __GNUC__ >= 4
+#    define G_GNUC_NULL_TERMINATED __attribute__((__sentinel__))
+#  else
+#    define G_GNUC_NULL_TERMINATED
+#  endif /* __GNUC__ >= 4 */
+#endif /* G_GNUC_NULL_TERMINATED */
+
+/* pidgin headers */
+#include <version.h>
+#include <xmlnode.h>
+#include <account.h>
+#include <accountopt.h>
+#include <debug.h>
+#include <request.h>
+#include <cipher.h>
 
 #ifdef ENABLE_NLS
 #  include <locale.h>
@@ -41,7 +57,7 @@
 #  endif
 #else
 #  define N_(String) (String)
-#  define _(x) ((const char *)x)
+#  define _(x) ((char *)x)
 #endif
 
 #define ICB_VERSION "20070505"

@@ -18,16 +18,6 @@
 
 #define PURPLE_PLUGINS
 
-#include "account.h"
-#include "accountopt.h"
-#include "debug.h" 
-#include "notify.h" 
-#include "request.h"
-#include "server.h"
-#include "util.h"
-#include "version.h"
-#include "cmds.h"
-
 #include "icb.h"
 
 static char  icb_input_buf[ICB_BUFSIZE+1];
