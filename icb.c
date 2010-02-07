@@ -135,7 +135,7 @@ IcbPacket *
 icb_parse_buf()
 {
 	char          *separator, *tmpbuf;
-	unsigned char *size;
+	unsigned char size;
 	IcbPacket     *packet = NULL;
 
 	purple_debug_info("icb", "-> icb_parse_buf\n");
@@ -164,12 +164,12 @@ icb_parse_buf()
 		return NULL;
 	}
 
-	size = icb_input_pos; /* Size of the package */
+	size = * (unsigned char *) icb_input_pos; /* size of the packet */
 	tmpbuf = icb_input_pos+1; /* Command sent in packet */
 
 	packet->nof = 0;
 	packet->fields = (char **) calloc(1, ICB_MAX_NO_FIELDS*sizeof(char *));
-	packet->length = *size;
+	packet->length = size;
 	packet->command = *tmpbuf++;
 
 	separator = tmpbuf;
