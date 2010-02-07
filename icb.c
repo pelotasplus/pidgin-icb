@@ -829,7 +829,11 @@ moderator_just_left:
 						g_free(escaped);
 					}
 #endif
+			
 				}
+			case ICB_CMD_PONG:
+				purple_debug_info("icb", "pong msg\n");
+				break;
 			default:
 				break;
 		}
