@@ -29,7 +29,7 @@ LDFLAGS=-L$(GTK)/lib \
 	$(CC) $(CFLAGS) -c $<
 
 OBJS=	icb.o
-VERSION=`cat icb.h | grep VERSION | awk '{ print $$3 }' | sed -e 's,",,g'`
+VERSION=`cat icb.h | grep ICB_VERSION | awk '{ print $$3 }' | sed -e 's,",,g'`
 
 all: ${OBJS}
 	$(CC) -shared $(OBJS) $(LDFLAGS) $(LIBS) \
@@ -49,12 +49,12 @@ install:
 	done
 
 dist: all
-	rm -f pidgin-icb-${VERSION}-win32.zip
+	rm -rf pidgin-icb-${VERSION}-win32.zip
 	rm -rf pidgin-icb-${VERSION}-win32
 	mkdir pidgin-icb-${VERSION}-win32
 	cp README* libicb.dll pidgin-icb-${VERSION}-win32
 	cp icb_*.png pidgin-icb-${VERSION}-win32
-	zip -9 -r pidgin-icb-${VERSION}-win32.zip pidgin-tlen-${VERSION}-win32
+	zip -9 -r pidgin-icb-${VERSION}-win32.zip pidgin-icb-${VERSION}-win32
 	rm -rf pidgin-icb-${VERSION}-win32
 
 tags: *.c *.h
