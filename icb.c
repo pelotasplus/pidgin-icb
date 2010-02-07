@@ -871,7 +871,7 @@ icb_send_chat(PurpleConnection *gc, int id, const char *message, PurpleMessageFl
 	purple_debug_info("icb", "icb_send_chat\n");
 	purple_debug_info("icb", "id=%d, len=%d, msg=\"%s\"\n", id, len, message);
 
-	tmp = purple_unescape_html(message);
+	tmp = purple_markup_strip_html(message);
 	
 	/* Split <message> into smaller chunks, as packed size is limited to
 	 * ICB_MAX_DATA_SIZE bytes.
@@ -910,7 +910,7 @@ icb_send_im(PurpleConnection *gc, const char *who, const char *msg, PurpleMessag
 	purple_debug_info("icb", "icb_send_im\n");
 	purple_debug_info("icb", "who=\"%s\", len=%d, msg=\"%s\"\n", who, msglen, msg);
 
-	tmp = purple_unescape_html(msg);
+	tmp = purple_markup_strip_html(msg);
 
 	/* max_msg_size is smaller than ICB_MAX_DATA_SIZE as IM packet looks like this:
 	 *   -gm,username message sent by user*
